@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_outer_classname = "WordGameProto";
+option objc_class_prefix = "HLW";
+
+package protos;
+
+// The WordGame service definition.
+service WordGame {
+  rpc FirstConnection (WelcomeRequest) returns (WelcomeReply) {}
+  rpc SelectMode (ModeRequest) returns (ModeReply) {}
+  rpc GuessLetter (LetterRequest) returns (LetterReply) {}
+}
+
+// The request message containing the type of game wanted.
+message WelcomeRequest {
+}
+
+// The response message containing the welcome message.
+message WelcomeReply {
+  string message = 1;
+}
+
+// The request message containing the type of game wanted.
+message ModeRequest {
+  string gameType = 1;
+}
+
+// The response message containing the welcome message.
+message ModeReply {
+  string message = 1;
+  bool valid = 2;
+}
+
+// The request message containing the letter guess.
+message LetterRequest {
+  string letter = 1;
+}
+
+// The response message containing the result of the guessing
+message LetterReply {
+  string sentence = 1;
+  bool gameFinished = 2;
+}
