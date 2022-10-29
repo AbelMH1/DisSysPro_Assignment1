@@ -56,6 +56,7 @@ class WheelOfFortuneXAttempts(WordGameTemplate):
         for i in range(len(self.sentence)):
             if self.sentence[i] != s[i]:
                 self.points -= 50
+                self.__checkFinishCondition()
                 return
         self.points += 25 * self.guessedSentence.count(False)
         self.gameFinished = True
