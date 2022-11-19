@@ -3,24 +3,27 @@ from datatype.enums import TypeGameMode
 from patterns import Singleton
 
 
-class WheelOfFortuneXAttempts(WordGameTemplate):
+class WheelOfFortuneCooperative(WordGameTemplate):
 
-    def __init__(self, number_attempts):
+    def __init__(self):
         self.sentence = Singleton.SentencesIO.get_instance().getSentence()
         print(self.sentence)
         self.usedLetters = []
-        self.guessedSentence = []
-        self.points = 0
+        self.guessedSentence = [[], []]
+        self.pointsPlayers = [0, 0]
         self.gameFinished = False
-        self.gameWined = False
-        self.number_attempts = number_attempts
+        self.turn = 0
         for x in range(len(self.sentence)):
             if self.sentence[x] == " ":
-                self.guessedSentence.append(True)
+                self.guessedSentence[0].append(True)
+                self.guessedSentence[1].append(True)
             else:
-                self.guessedSentence.append(False)
+                self.guessedSentence[0].append(False)
+                self.guessedSentence[1].append(False)
 
-    def processGuess(self, guess):
+    def processGuess(self, guess, user):
+        if user != self.turn:
+            return
         if len(guess) == 1:
             self.__processLetter(guess)
         else:
@@ -35,71 +38,57 @@ class WheelOfFortuneXAttempts(WordGameTemplate):
                     if self.sentence[i] == letter:
                         self.guessedSentence[i] = True
                         self.points += 10
+                self.__checkFinishCondition()
             else:
-                self.number_attempts -= 1
                 self.points -= 10
-            self.__checkFinishCondition()
 
     def __checkFinishCondition(self):
-        if self.number_attempts == 0:
-            self.gameFinished = True
         for x in self.guessedSentence:
             if not x:
                 return
         self.gameFinished = True
-        self.gameWined = True
 
     def __processSentence(self, s):
-        self.number_attempts -= 1
         if len(self.sentence) != len(s):
             self.points -= 50
             return
         for i in range(len(self.sentence)):
             if self.sentence[i] != s[i]:
                 self.points -= 50
-                self.__checkFinishCondition()
                 return
         self.points += 25 * self.guessedSentence.count(False)
         self.gameFinished = True
-        self.gameWined = True
 
     def getMessage(self):
         if self.gameFinished:
-            if self.gameWined:
-                m = self.sentence + "\nCongratulations!\nYou have guessed the sentence  :)"
-            else:
-                m = "Too bad, you exhausted all your attempts  :(\nThe answer was: " + self.sentence
-            m += "\nPoints: " + str(self.points)
+            m = self.sentence + "\nCongratulations!\nYou have guessed the sentence  :)"
         else:
-            m = self.getHiddenSentence() + "\nPoints: " + str(self.points) + "  Attempts left: "\
-                + str(self.number_attempts)
-        return m
+            m = self.getHiddenSentence()
+        return m + "\nPoints: " + str(self.points)
 
     def getHiddenSentence(self):
         out = ""
         for i in range(0, len(self.sentence)):
-            if self.guessedSentence[i]:
+            if self.guessedSentence[0][i] or self.guessedSentence[1][i]:
                 out += self.sentence[i]
             else:
                 out += "_"
         return out
 
     def getIntroMessage(self):
-        return 'Wheel Of Fortune Attempts\n' \
+        return 'Wheel Of Fortune Cooperative\n' \
                'Each guessed letter gives 10 points for each time it appears in the sentence.' \
                'If it is not in the sentence it discounts 10 points.\n' \
                'Solving the whole sentence gives 25 points for each hidden letter and discounts 50 if not correct.\n' \
-               'You loose an attempt if you fail a letter or a sentence guess (repeated letters doesn\'t count)\n' \
-               'Try to guess the sentence in less than {} attempts!\n{}'.format(self.number_attempts,
-                                                                                self.getHiddenSentence())
+               'Try to guess the sentence with your partner!\n%s' % self.getHiddenSentence()
 
     def getTypeGame(self):
-        return TypeGameMode.SINGLEPLAYER
+        return TypeGameMode.MULTIPLAYER
 
 
-class WheelOfFortuneXAttemptsBuilder:
+class WheelOfFortuneCooperativeBuilder:
     def __init__(self):
         pass
 
-    def __call__(self, number_attempts=5):
-        return WheelOfFortuneXAttempts(number_attempts)
+    def __call__(self):
+        return WheelOfFortuneCooperative()

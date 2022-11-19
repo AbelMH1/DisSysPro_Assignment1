@@ -1,4 +1,5 @@
 from app.templates.WordGameTemplate import WordGameTemplate
+from datatype.enums import TypeGameMode
 from patterns import Singleton
 
 
@@ -75,6 +76,9 @@ class WheelOfFortuneBasic(WordGameTemplate):
                'If it is not in the sentence it discounts 10 points.\n' \
                'Solving the whole sentence gives 25 points for each hidden letter and discounts 50 if not correct.\n' \
                'Try to guess the sentence!\n%s' % self.getHiddenSentence()
+
+    def getTypeGame(self):
+        return TypeGameMode.SINGLEPLAYER
 
 
 class WheelOfFortuneBasicBuilder:

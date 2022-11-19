@@ -30,7 +30,7 @@ message ModeRequest {
 // The response message containing the welcome message.
 message ModeReply {
   string message = 1;
-  bool valid = 2;
+  int32 typeMode = 2;
 }
 
 // The request message containing the letter guess.

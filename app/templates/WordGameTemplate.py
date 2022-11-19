@@ -26,3 +26,8 @@ class WordGameTemplate(ABC):
     def getIntroMessage(self):
         """Primitive operation. You HAVE TO override me, I'm a placeholder."""
         pass
+
+    @abstractmethod
+    def getTypeGame(self):
+        """Primitive operation. You HAVE TO override me, I'm a placeholder."""
+        pass

@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0ewordgame.proto\x12\x06protos\"\x10\n\x0eWelcomeRequest\"\x1f\n\x0cWelcomeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1f\n\x0bModeRequest\x12\x10\n\x08gameType\x18\x01 \x01(\t\"+\n\tModeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\r\n\x05valid\x18\x02 \x01(\x08\"\x1f\n\rLetterRequest\x12\x0e\n\x06letter\x18\x01 \x01(\t\"5\n\x0bLetterReply\x12\x10\n\x08sentence\x18\x01 \x01(\t\x12\x14\n\x0cgameFinished\x18\x02 \x01(\x08\x32\xc2\x01\n\x08WordGame\x12\x41\n\x0f\x46irstConnection\x12\x16.protos.WelcomeRequest\x1a\x14.protos.WelcomeReply\"\x00\x12\x36\n\nSelectMode\x12\x13.protos.ModeRequest\x1a\x11.protos.ModeReply\"\x00\x12;\n\x0bGuessLetter\x12\x15.protos.LetterRequest\x1a\x13.protos.LetterReply\"\x00\x42\x17\x42\rWordGameProtoP\x01\xa2\x02\x03HLWb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0ewordgame.proto\x12\x06protos\"\x10\n\x0eWelcomeRequest\"\x1f\n\x0cWelcomeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1f\n\x0bModeRequest\x12\x10\n\x08gameType\x18\x01 \x01(\t\".\n\tModeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08typeMode\x18\x02 \x01(\x05\"\x1f\n\rLetterRequest\x12\x0e\n\x06letter\x18\x01 \x01(\t\"5\n\x0bLetterReply\x12\x10\n\x08sentence\x18\x01 \x01(\t\x12\x14\n\x0cgameFinished\x18\x02 \x01(\x08\x32\xc2\x01\n\x08WordGame\x12\x41\n\x0f\x46irstConnection\x12\x16.protos.WelcomeRequest\x1a\x14.protos.WelcomeReply\"\x00\x12\x36\n\nSelectMode\x12\x13.protos.ModeRequest\x1a\x11.protos.ModeReply\"\x00\x12;\n\x0bGuessLetter\x12\x15.protos.LetterRequest\x1a\x13.protos.LetterReply\"\x00\x42\x17\x42\rWordGameProtoP\x01\xa2\x02\x03HLWb\x06proto3')
 
 
 
@@ -78,11 +78,11 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _MODEREQUEST._serialized_start=77
   _MODEREQUEST._serialized_end=108
   _MODEREPLY._serialized_start=110
-  _MODEREPLY._serialized_end=153
-  _LETTERREQUEST._serialized_start=155
-  _LETTERREQUEST._serialized_end=186
-  _LETTERREPLY._serialized_start=188
-  _LETTERREPLY._serialized_end=241
-  _WORDGAME._serialized_start=244
-  _WORDGAME._serialized_end=438
+  _MODEREPLY._serialized_end=156
+  _LETTERREQUEST._serialized_start=158
+  _LETTERREQUEST._serialized_end=189
+  _LETTERREPLY._serialized_start=191
+  _LETTERREPLY._serialized_end=244
+  _WORDGAME._serialized_start=247
+  _WORDGAME._serialized_end=441
 # @@protoc_insertion_point(module_scope)

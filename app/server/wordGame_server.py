@@ -4,7 +4,7 @@ import logging
 import grpc
 import wordgame_pb2
 import wordgame_pb2_grpc
-from app.gameimpl import WheelOfFortuneBasic, WheelOfFortuneXAttempts
+from app.gameimpl import WheelOfFortuneBasic, WheelOfFortuneXAttempts, WheelOfFortuneCooperative
 from patterns import WordGameFactory
 
 
@@ -15,6 +15,7 @@ class WordGame(wordgame_pb2_grpc.WordGameServicer):
         self.factory = WordGameFactory.WordGameFactory()
         self.factory.register_builder('WOFBASIC', WheelOfFortuneBasic.WheelOfFortuneBasicBuilder())
         self.factory.register_builder('WOFATTEMPTS', WheelOfFortuneXAttempts.WheelOfFortuneXAttemptsBuilder())
+        self.factory.register_builder('WOFCOOP', WheelOfFortuneCooperative.WheelOfFortuneCooperativeBuilder())
 
     def FirstConnection(self, request, context):
         return wordgame_pb2.WelcomeReply(message='Welcome to WordGame! Choose the game mode you want to play from '
@@ -24,9 +25,9 @@ class WordGame(wordgame_pb2_grpc.WordGameServicer):
     def SelectMode(self, request, context):
         if self.factory.isBuilderRegistered(request.gameType):
             self.game = self.factory.create(request.gameType)
-            return wordgame_pb2.ModeReply(message=self.game.getIntroMessage(), valid=True)
+            return wordgame_pb2.ModeReply(message=self.game.getIntroMessage(), typeMode=self.game.getTypeGame())
         return wordgame_pb2.ModeReply(message='Choose one of the modes available!\nGame modes available: '
-                                              + self.factory.enumerateBuilders() + '\nGame mode: ', valid=False)
+                                              + self.factory.enumerateBuilders() + '\nGame mode: ', typeMode=0)
 
     def GuessLetter(self, request, context):
         self.game.processGuess(request.letter)

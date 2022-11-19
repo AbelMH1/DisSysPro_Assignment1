@@ -4,6 +4,7 @@ import logging
 import grpc
 import wordgame_pb2
 import wordgame_pb2_grpc
+from datatype.enums import TypeGameMode
 
 
 def run():
@@ -15,7 +16,7 @@ def run():
 
         response = stub.SelectMode(wordgame_pb2.ModeRequest(gameType=input().upper()))
         print(response.message)
-        while not response.valid:
+        while response.typeMode == TypeGameMode.INVALID:
             response = stub.SelectMode(wordgame_pb2.ModeRequest(gameType=input().upper()))
             print(response.message)
 
