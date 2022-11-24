@@ -30,6 +30,21 @@ class WordGameStub(object):
                 request_serializer=wordgame__pb2.LetterRequest.SerializeToString,
                 response_deserializer=wordgame__pb2.LetterReply.FromString,
                 )
+        self.CheckTurn = channel.unary_unary(
+                '/protos.WordGame/CheckTurn',
+                request_serializer=wordgame__pb2.TurnRequest.SerializeToString,
+                response_deserializer=wordgame__pb2.TurnReply.FromString,
+                )
+        self.CheckTeamMateAnswer = channel.unary_unary(
+                '/protos.WordGame/CheckTeamMateAnswer',
+                request_serializer=wordgame__pb2.WatchRequest.SerializeToString,
+                response_deserializer=wordgame__pb2.WatchReply.FromString,
+                )
+        self.CheckGameID = channel.unary_unary(
+                '/protos.WordGame/CheckGameID',
+                request_serializer=wordgame__pb2.CheckIDRequest.SerializeToString,
+                response_deserializer=wordgame__pb2.CheckIDReply.FromString,
+                )
 
 
 class WordGameServicer(object):
@@ -54,6 +69,24 @@ class WordGameServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CheckTurn(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CheckTeamMateAnswer(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CheckGameID(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WordGameServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -71,6 +104,21 @@ def add_WordGameServicer_to_server(servicer, server):
                     servicer.GuessLetter,
                     request_deserializer=wordgame__pb2.LetterRequest.FromString,
                     response_serializer=wordgame__pb2.LetterReply.SerializeToString,
+            ),
+            'CheckTurn': grpc.unary_unary_rpc_method_handler(
+                    servicer.CheckTurn,
+                    request_deserializer=wordgame__pb2.TurnRequest.FromString,
+                    response_serializer=wordgame__pb2.TurnReply.SerializeToString,
+            ),
+            'CheckTeamMateAnswer': grpc.unary_unary_rpc_method_handler(
+                    servicer.CheckTeamMateAnswer,
+                    request_deserializer=wordgame__pb2.WatchRequest.FromString,
+                    response_serializer=wordgame__pb2.WatchReply.SerializeToString,
+            ),
+            'CheckGameID': grpc.unary_unary_rpc_method_handler(
+                    servicer.CheckGameID,
+                    request_deserializer=wordgame__pb2.CheckIDRequest.FromString,
+                    response_serializer=wordgame__pb2.CheckIDReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -131,5 +179,56 @@ class WordGame(object):
         return grpc.experimental.unary_unary(request, target, '/protos.WordGame/GuessLetter',
             wordgame__pb2.LetterRequest.SerializeToString,
             wordgame__pb2.LetterReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CheckTurn(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/protos.WordGame/CheckTurn',
+            wordgame__pb2.TurnRequest.SerializeToString,
+            wordgame__pb2.TurnReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CheckTeamMateAnswer(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/protos.WordGame/CheckTeamMateAnswer',
+            wordgame__pb2.WatchRequest.SerializeToString,
+            wordgame__pb2.WatchReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CheckGameID(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/protos.WordGame/CheckGameID',
+            wordgame__pb2.CheckIDRequest.SerializeToString,
+            wordgame__pb2.CheckIDReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

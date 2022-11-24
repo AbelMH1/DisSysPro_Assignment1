@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0ewordgame.proto\x12\x06protos\"\x10\n\x0eWelcomeRequest\"\x1f\n\x0cWelcomeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1f\n\x0bModeRequest\x12\x10\n\x08gameType\x18\x01 \x01(\t\".\n\tModeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08typeMode\x18\x02 \x01(\x05\"\x1f\n\rLetterRequest\x12\x0e\n\x06letter\x18\x01 \x01(\t\"5\n\x0bLetterReply\x12\x10\n\x08sentence\x18\x01 \x01(\t\x12\x14\n\x0cgameFinished\x18\x02 \x01(\x08\x32\xc2\x01\n\x08WordGame\x12\x41\n\x0f\x46irstConnection\x12\x16.protos.WelcomeRequest\x1a\x14.protos.WelcomeReply\"\x00\x12\x36\n\nSelectMode\x12\x13.protos.ModeRequest\x1a\x11.protos.ModeReply\"\x00\x12;\n\x0bGuessLetter\x12\x15.protos.LetterRequest\x1a\x13.protos.LetterReply\"\x00\x42\x17\x42\rWordGameProtoP\x01\xa2\x02\x03HLWb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0ewordgame.proto\x12\x06protos\"\x10\n\x0eWelcomeRequest\"\x1f\n\x0cWelcomeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1f\n\x0bModeRequest\x12\x10\n\x08gameType\x18\x01 \x01(\t\".\n\tModeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08typeMode\x18\x02 \x01(\x05\"\x1f\n\rLetterRequest\x12\x0e\n\x06letter\x18\x01 \x01(\t\"5\n\x0bLetterReply\x12\x10\n\x08sentence\x18\x01 \x01(\t\x12\x14\n\x0cgameFinished\x18\x02 \x01(\x08\"\x1b\n\x0bTurnRequest\x12\x0c\n\x04user\x18\x01 \x01(\x05\"\x1d\n\tTurnReply\x12\x10\n\x08isMyTurn\x18\x01 \x01(\x08\"\x0e\n\x0cWatchRequest\"\x1e\n\nWatchReply\x12\x10\n\x08sentence\x18\x01 \x01(\t\" \n\x0e\x43heckIDRequest\x12\x0e\n\x06gameID\x18\x01 \x01(\t\"!\n\x0c\x43heckIDReply\x12\x11\n\tcorrectID\x18\x01 \x01(\x08\x32\xfb\x02\n\x08WordGame\x12\x41\n\x0f\x46irstConnection\x12\x16.protos.WelcomeRequest\x1a\x14.protos.WelcomeReply\"\x00\x12\x36\n\nSelectMode\x12\x13.protos.ModeRequest\x1a\x11.protos.ModeReply\"\x00\x12;\n\x0bGuessLetter\x12\x15.protos.LetterRequest\x1a\x13.protos.LetterReply\"\x00\x12\x35\n\tCheckTurn\x12\x13.protos.TurnRequest\x1a\x11.protos.TurnReply\"\x00\x12\x41\n\x13\x43heckTeamMateAnswer\x12\x14.protos.WatchRequest\x1a\x12.protos.WatchReply\"\x00\x12=\n\x0b\x43heckGameID\x12\x16.protos.CheckIDRequest\x1a\x14.protos.CheckIDReply\"\x00\x42\x17\x42\rWordGameProtoP\x01\xa2\x02\x03HLWb\x06proto3')
 
 
 
@@ -24,6 +24,12 @@ _MODEREQUEST = DESCRIPTOR.message_types_by_name['ModeRequest']
 _MODEREPLY = DESCRIPTOR.message_types_by_name['ModeReply']
 _LETTERREQUEST = DESCRIPTOR.message_types_by_name['LetterRequest']
 _LETTERREPLY = DESCRIPTOR.message_types_by_name['LetterReply']
+_TURNREQUEST = DESCRIPTOR.message_types_by_name['TurnRequest']
+_TURNREPLY = DESCRIPTOR.message_types_by_name['TurnReply']
+_WATCHREQUEST = DESCRIPTOR.message_types_by_name['WatchRequest']
+_WATCHREPLY = DESCRIPTOR.message_types_by_name['WatchReply']
+_CHECKIDREQUEST = DESCRIPTOR.message_types_by_name['CheckIDRequest']
+_CHECKIDREPLY = DESCRIPTOR.message_types_by_name['CheckIDReply']
 WelcomeRequest = _reflection.GeneratedProtocolMessageType('WelcomeRequest', (_message.Message,), {
   'DESCRIPTOR' : _WELCOMEREQUEST,
   '__module__' : 'wordgame_pb2'
@@ -66,6 +72,48 @@ LetterReply = _reflection.GeneratedProtocolMessageType('LetterReply', (_message.
   })
 _sym_db.RegisterMessage(LetterReply)
 
+TurnRequest = _reflection.GeneratedProtocolMessageType('TurnRequest', (_message.Message,), {
+  'DESCRIPTOR' : _TURNREQUEST,
+  '__module__' : 'wordgame_pb2'
+  # @@protoc_insertion_point(class_scope:protos.TurnRequest)
+  })
+_sym_db.RegisterMessage(TurnRequest)
+
+TurnReply = _reflection.GeneratedProtocolMessageType('TurnReply', (_message.Message,), {
+  'DESCRIPTOR' : _TURNREPLY,
+  '__module__' : 'wordgame_pb2'
+  # @@protoc_insertion_point(class_scope:protos.TurnReply)
+  })
+_sym_db.RegisterMessage(TurnReply)
+
+WatchRequest = _reflection.GeneratedProtocolMessageType('WatchRequest', (_message.Message,), {
+  'DESCRIPTOR' : _WATCHREQUEST,
+  '__module__' : 'wordgame_pb2'
+  # @@protoc_insertion_point(class_scope:protos.WatchRequest)
+  })
+_sym_db.RegisterMessage(WatchRequest)
+
+WatchReply = _reflection.GeneratedProtocolMessageType('WatchReply', (_message.Message,), {
+  'DESCRIPTOR' : _WATCHREPLY,
+  '__module__' : 'wordgame_pb2'
+  # @@protoc_insertion_point(class_scope:protos.WatchReply)
+  })
+_sym_db.RegisterMessage(WatchReply)
+
+CheckIDRequest = _reflection.GeneratedProtocolMessageType('CheckIDRequest', (_message.Message,), {
+  'DESCRIPTOR' : _CHECKIDREQUEST,
+  '__module__' : 'wordgame_pb2'
+  # @@protoc_insertion_point(class_scope:protos.CheckIDRequest)
+  })
+_sym_db.RegisterMessage(CheckIDRequest)
+
+CheckIDReply = _reflection.GeneratedProtocolMessageType('CheckIDReply', (_message.Message,), {
+  'DESCRIPTOR' : _CHECKIDREPLY,
+  '__module__' : 'wordgame_pb2'
+  # @@protoc_insertion_point(class_scope:protos.CheckIDReply)
+  })
+_sym_db.RegisterMessage(CheckIDReply)
+
 _WORDGAME = DESCRIPTOR.services_by_name['WordGame']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
@@ -83,6 +131,18 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _LETTERREQUEST._serialized_end=189
   _LETTERREPLY._serialized_start=191
   _LETTERREPLY._serialized_end=244
-  _WORDGAME._serialized_start=247
-  _WORDGAME._serialized_end=441
+  _TURNREQUEST._serialized_start=246
+  _TURNREQUEST._serialized_end=273
+  _TURNREPLY._serialized_start=275
+  _TURNREPLY._serialized_end=304
+  _WATCHREQUEST._serialized_start=306
+  _WATCHREQUEST._serialized_end=320
+  _WATCHREPLY._serialized_start=322
+  _WATCHREPLY._serialized_end=352
+  _CHECKIDREQUEST._serialized_start=354
+  _CHECKIDREQUEST._serialized_end=386
+  _CHECKIDREPLY._serialized_start=388
+  _CHECKIDREPLY._serialized_end=421
+  _WORDGAME._serialized_start=424
+  _WORDGAME._serialized_end=803
 # @@protoc_insertion_point(module_scope)

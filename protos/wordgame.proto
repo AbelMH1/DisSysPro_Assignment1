@@ -11,9 +11,12 @@ service WordGame {
   rpc FirstConnection (WelcomeRequest) returns (WelcomeReply) {}
   rpc SelectMode (ModeRequest) returns (ModeReply) {}
   rpc GuessLetter (LetterRequest) returns (LetterReply) {}
+  rpc CheckTurn (TurnRequest) returns (TurnReply) {}
+  rpc CheckTeamMateAnswer (WatchRequest) returns (WatchReply) {}
+  rpc CheckGameID (CheckIDRequest) returns (CheckIDReply) {}
 }
 
-// The request message containing the type of game wanted.
+// The initial request message.
 message WelcomeRequest {
 }
 
@@ -27,7 +30,7 @@ message ModeRequest {
   string gameType = 1;
 }
 
-// The response message containing the welcome message.
+// The response message containing the chosen mode.
 message ModeReply {
   string message = 1;
   int32 typeMode = 2;
@@ -42,4 +45,27 @@ message LetterRequest {
 message LetterReply {
   string sentence = 1;
   bool gameFinished = 2;
+}
+
+message TurnRequest {
+  int32 user = 1;
+}
+
+message TurnReply {
+  bool isMyTurn = 1;
+}
+
+message WatchRequest {
+}
+
+message WatchReply {
+  string sentence = 1;
+}
+
+message CheckIDRequest {
+  string gameID = 1;
+}
+
+message CheckIDReply {
+  bool correctID = 1;
 }

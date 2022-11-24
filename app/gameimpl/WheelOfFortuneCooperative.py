@@ -13,6 +13,7 @@ class WheelOfFortuneCooperative(WordGameTemplate):
         self.pointsPlayers = [0, 0]
         self.gameFinished = False
         self.turn = 0
+        self.gameID = "1"
         for x in range(len(self.sentence)):
             if self.sentence[x] == " ":
                 self.guessedSentence[0].append(True)
@@ -21,13 +22,14 @@ class WheelOfFortuneCooperative(WordGameTemplate):
                 self.guessedSentence[0].append(False)
                 self.guessedSentence[1].append(False)
 
-    def processGuess(self, guess, user):
-        if user != self.turn:
-            return
+    def processGuess(self, guess):
+        # if not self.checkTurn(user):
+        #    return
         if len(guess) == 1:
             self.__processLetter(guess)
         else:
             self.__processSentence(guess)
+        self.turn = (self.turn + 1) % 2
 
     def __processLetter(self, letter):
         if letter not in self.usedLetters:
@@ -36,27 +38,27 @@ class WheelOfFortuneCooperative(WordGameTemplate):
             if timesLetterAppear > 0:
                 for i in range(len(self.sentence)):
                     if self.sentence[i] == letter:
-                        self.guessedSentence[i] = True
-                        self.points += 10
+                        self.guessedSentence[self.turn][i] = True
+                        self.pointsPlayers[self.turn] += 10
                 self.__checkFinishCondition()
             else:
-                self.points -= 10
+                self.pointsPlayers[self.turn] -= 10
 
     def __checkFinishCondition(self):
-        for x in self.guessedSentence:
-            if not x:
+        for i in range(len(self.sentence)):
+            if not self.guessedSentence[0][i] and not self.guessedSentence[1][i]:
                 return
         self.gameFinished = True
 
     def __processSentence(self, s):
         if len(self.sentence) != len(s):
-            self.points -= 50
+            self.pointsPlayers[self.turn] -= 50
             return
         for i in range(len(self.sentence)):
             if self.sentence[i] != s[i]:
-                self.points -= 50
+                self.pointsPlayers[self.turn] -= 50
                 return
-        self.points += 25 * self.guessedSentence.count(False)
+        self.pointsPlayers[self.turn] += 25 * self.guessedSentence.count(False)
         self.gameFinished = True
 
     def getMessage(self):
@@ -64,7 +66,7 @@ class WheelOfFortuneCooperative(WordGameTemplate):
             m = self.sentence + "\nCongratulations!\nYou have guessed the sentence  :)"
         else:
             m = self.getHiddenSentence()
-        return m + "\nPoints: " + str(self.points)
+        return m + "\nPoints: " + str(self.pointsPlayers[self.turn])
 
     def getHiddenSentence(self):
         out = ""
@@ -83,7 +85,13 @@ class WheelOfFortuneCooperative(WordGameTemplate):
                'Try to guess the sentence with your partner!\n%s' % self.getHiddenSentence()
 
     def getTypeGame(self):
-        return TypeGameMode.MULTIPLAYER
+        return TypeGameMode.MULTIPLAYERCREATE
+
+    def checkTurn(self, user):
+        return self.turn == user
+
+    def checkGameID(self, gameID):
+        return self.gameID == gameID
 
 
 class WheelOfFortuneCooperativeBuilder:
