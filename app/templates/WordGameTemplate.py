@@ -31,3 +31,6 @@ class WordGameTemplate(ABC):
     def getTypeGame(self):
         """Primitive operation. You HAVE TO override me, I'm a placeholder."""
         pass
+
+    def changeTurn(self):
+        pass

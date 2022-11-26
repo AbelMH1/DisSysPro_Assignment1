@@ -41,16 +41,22 @@ def runMultiPlayer(stub, typeMode):
     if typeMode == TypeGameMode.MULTIPLAYERJOIN:
         if not askForGameID(stub):
             return
+    else:  # typeMode == TypeGameMode.MULTIPLAYERCREATE:
+        response = stub.GetMyGameCode(wordgame_pb2.GameCodeRequest())
+        print("Share your Game Code with the other player: " + response.GameCode)
     gameFinished = False
     while not gameFinished:
         response = stub.CheckTurn(wordgame_pb2.TurnRequest(user=userid))
         if not response.isMyTurn:
             print("It is other player's turn...")
-        while not response.isMyTurn:
-            sleep(1)
-            response = stub.CheckTurn(wordgame_pb2.TurnRequest(user=userid))
-        response = stub.CheckTeamMateAnswer(wordgame_pb2.WatchRequest())
-        print(response.sentence)
+            while not response.isMyTurn:
+                sleep(1)
+                response = stub.CheckTurn(wordgame_pb2.TurnRequest(user=userid))
+            response = stub.CheckTeamMateAnswer(wordgame_pb2.TeamMateAnswerRequest())
+            if response.gameFinished:
+                print(response.finalSentence)
+                break
+            print(response.sentence)
         print("Your turn!")
         response = stub.GuessLetter(wordgame_pb2.LetterRequest(letter=askForLetter()))
         print(response.sentence)

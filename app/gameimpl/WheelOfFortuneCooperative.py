@@ -7,13 +7,12 @@ class WheelOfFortuneCooperative(WordGameTemplate):
 
     def __init__(self):
         self.sentence = Singleton.SentencesIO.get_instance().getSentence()
-        print(self.sentence)
         self.usedLetters = []
-        self.guessedSentence = [[], []]
         self.pointsPlayers = [0, 0]
         self.gameFinished = False
         self.turn = 0
         self.gameID = "1"
+        self.guessedSentence = [[], []]
         for x in range(len(self.sentence)):
             if self.sentence[x] == " ":
                 self.guessedSentence[0].append(True)
@@ -22,14 +21,14 @@ class WheelOfFortuneCooperative(WordGameTemplate):
                 self.guessedSentence[0].append(False)
                 self.guessedSentence[1].append(False)
 
+    def changeTurn(self):
+        self.turn = (self.turn + 1) % 2
+
     def processGuess(self, guess):
-        # if not self.checkTurn(user):
-        #    return
         if len(guess) == 1:
             self.__processLetter(guess)
         else:
             self.__processSentence(guess)
-        self.turn = (self.turn + 1) % 2
 
     def __processLetter(self, letter):
         if letter not in self.usedLetters:

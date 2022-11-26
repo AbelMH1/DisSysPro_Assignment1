@@ -37,13 +37,18 @@ class WordGameStub(object):
                 )
         self.CheckTeamMateAnswer = channel.unary_unary(
                 '/protos.WordGame/CheckTeamMateAnswer',
-                request_serializer=wordgame__pb2.WatchRequest.SerializeToString,
-                response_deserializer=wordgame__pb2.WatchReply.FromString,
+                request_serializer=wordgame__pb2.TeamMateAnswerRequest.SerializeToString,
+                response_deserializer=wordgame__pb2.TeamMateAnswerReply.FromString,
                 )
         self.CheckGameID = channel.unary_unary(
                 '/protos.WordGame/CheckGameID',
                 request_serializer=wordgame__pb2.CheckIDRequest.SerializeToString,
                 response_deserializer=wordgame__pb2.CheckIDReply.FromString,
+                )
+        self.GetMyGameCode = channel.unary_unary(
+                '/protos.WordGame/GetMyGameCode',
+                request_serializer=wordgame__pb2.GameCodeRequest.SerializeToString,
+                response_deserializer=wordgame__pb2.GameCodeReply.FromString,
                 )
 
 
@@ -87,6 +92,12 @@ class WordGameServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetMyGameCode(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WordGameServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -112,13 +123,18 @@ def add_WordGameServicer_to_server(servicer, server):
             ),
             'CheckTeamMateAnswer': grpc.unary_unary_rpc_method_handler(
                     servicer.CheckTeamMateAnswer,
-                    request_deserializer=wordgame__pb2.WatchRequest.FromString,
-                    response_serializer=wordgame__pb2.WatchReply.SerializeToString,
+                    request_deserializer=wordgame__pb2.TeamMateAnswerRequest.FromString,
+                    response_serializer=wordgame__pb2.TeamMateAnswerReply.SerializeToString,
             ),
             'CheckGameID': grpc.unary_unary_rpc_method_handler(
                     servicer.CheckGameID,
                     request_deserializer=wordgame__pb2.CheckIDRequest.FromString,
                     response_serializer=wordgame__pb2.CheckIDReply.SerializeToString,
+            ),
+            'GetMyGameCode': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetMyGameCode,
+                    request_deserializer=wordgame__pb2.GameCodeRequest.FromString,
+                    response_serializer=wordgame__pb2.GameCodeReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -211,8 +227,8 @@ class WordGame(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/protos.WordGame/CheckTeamMateAnswer',
-            wordgame__pb2.WatchRequest.SerializeToString,
-            wordgame__pb2.WatchReply.FromString,
+            wordgame__pb2.TeamMateAnswerRequest.SerializeToString,
+            wordgame__pb2.TeamMateAnswerReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -230,5 +246,22 @@ class WordGame(object):
         return grpc.experimental.unary_unary(request, target, '/protos.WordGame/CheckGameID',
             wordgame__pb2.CheckIDRequest.SerializeToString,
             wordgame__pb2.CheckIDReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetMyGameCode(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/protos.WordGame/GetMyGameCode',
+            wordgame__pb2.GameCodeRequest.SerializeToString,
+            wordgame__pb2.GameCodeReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -12,8 +12,9 @@ service WordGame {
   rpc SelectMode (ModeRequest) returns (ModeReply) {}
   rpc GuessLetter (LetterRequest) returns (LetterReply) {}
   rpc CheckTurn (TurnRequest) returns (TurnReply) {}
-  rpc CheckTeamMateAnswer (WatchRequest) returns (WatchReply) {}
+  rpc CheckTeamMateAnswer (TeamMateAnswerRequest) returns (TeamMateAnswerReply) {}
   rpc CheckGameID (CheckIDRequest) returns (CheckIDReply) {}
+  rpc GetMyGameCode (GameCodeRequest) returns (GameCodeReply) {}
 }
 
 // The initial request message.
@@ -55,11 +56,13 @@ message TurnReply {
   bool isMyTurn = 1;
 }
 
-message WatchRequest {
+message TeamMateAnswerRequest {
 }
 
-message WatchReply {
+message TeamMateAnswerReply {
   string sentence = 1;
+  bool gameFinished = 2;
+  string finalSentence = 3;
 }
 
 message CheckIDRequest {
@@ -68,4 +71,11 @@ message CheckIDRequest {
 
 message CheckIDReply {
   bool correctID = 1;
+}
+
+message GameCodeRequest {
+}
+
+message GameCodeReply {
+  string GameCode = 1;
 }

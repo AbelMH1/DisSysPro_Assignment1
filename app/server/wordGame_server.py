@@ -24,14 +24,32 @@ class WordGame(wordgame_pb2_grpc.WordGameServicer):
                                                  + '\nGame mode: ')
 
     def SelectMode(self, request, context):
+        if not self.factory.isBuilderRegistered(request.gameType):
+            return wordgame_pb2.ModeReply(message='Choose one of the modes available!\nGame modes available: '
+                                                  + self.factory.enumerateBuilders() + '\nGame mode: ',
+                                          typeMode=TypeGameMode.INVALID)
+        if self.game is None or self.game.gameFinished:
+            self.game = self.factory.create(request.gameType)
+            print(self.game.sentence)
+            return wordgame_pb2.ModeReply(message=self.game.getIntroMessage(), typeMode=self.game.getTypeGame())
+        if self.game.getTypeGame() != TypeGameMode.MULTIPLAYERCREATE or \
+                self.factory.create(request.gameType).getTypeGame() != TypeGameMode.MULTIPLAYERCREATE:
+            return wordgame_pb2.ModeReply(message='A game is already in progress, wait a moment and then try again'
+                                                  ' choosing one of the modes available.\nGame modes available: '
+                                                  + self.factory.enumerateBuilders() + '\nGame mode: ',
+                                          typeMode=TypeGameMode.INVALID)
+        return wordgame_pb2.ModeReply(message=self.game.getIntroMessage(), typeMode=TypeGameMode.MULTIPLAYERJOIN)
+
+    def CheckAvailableMode(self, request, context):
         if self.factory.isBuilderRegistered(request.gameType):
             if self.game is not None and not self.game.gameFinished:
                 if self.factory.create(request.gameType).getTypeGame() == TypeGameMode.MULTIPLAYERCREATE \
                         and self.game.getTypeGame() == TypeGameMode.MULTIPLAYERCREATE:
-                    return wordgame_pb2.ModeReply(message=self.game.getIntroMessage(), typeMode=TypeGameMode.MULTIPLAYERJOIN)
+                    return wordgame_pb2.ModeReply(message=self.game.getIntroMessage(),
+                                                  typeMode=TypeGameMode.MULTIPLAYERJOIN)
                 return wordgame_pb2.ModeReply(message='A game is already in progress, wait a moment and then try again'
                                                       ' choosing one of the modes available.\nGame modes available: '
-                                              + self.factory.enumerateBuilders() + '\nGame mode: ',
+                                                      + self.factory.enumerateBuilders() + '\nGame mode: ',
                                               typeMode=TypeGameMode.INVALID)
             self.game = self.factory.create(request.gameType)
             return wordgame_pb2.ModeReply(message=self.game.getIntroMessage(), typeMode=self.game.getTypeGame())
@@ -41,13 +59,21 @@ class WordGame(wordgame_pb2_grpc.WordGameServicer):
 
     def GuessLetter(self, request, context):
         self.game.processGuess(request.letter)
-        return wordgame_pb2.LetterReply(sentence=self.game.getMessage(), gameFinished=self.game.gameFinished)
+        sentence = self.game.getMessage()
+        gameFinished = self.game.gameFinished
+        self.game.changeTurn()
+        return wordgame_pb2.LetterReply(sentence=sentence, gameFinished=gameFinished)
 
     def CheckTurn(self, request, context):
         return wordgame_pb2.TurnReply(isMyTurn=self.game.checkTurn(request.user))
 
     def CheckTeamMateAnswer(self, request, context):
-        return wordgame_pb2.WatchReply(sentence=self.game.getHiddenSentence())
+        return wordgame_pb2.TeamMateAnswerReply(sentence=self.game.getHiddenSentence(),
+                                                gameFinished=self.game.gameFinished,
+                                                finalSentence=self.game.getMessage())
+
+    def GetMyGameCode(self, request, context):
+        return wordgame_pb2.GameCodeReply(GameCode=self.game.gameID)
 
     def CheckGameID(self, request, context):
         return wordgame_pb2.CheckIDReply(correctID=self.game.checkGameID(request.gameID))
