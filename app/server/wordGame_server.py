@@ -40,22 +40,8 @@ class WordGame(wordgame_pb2_grpc.WordGameServicer):
                                           typeMode=TypeGameMode.INVALID)
         return wordgame_pb2.ModeReply(message=self.game.getIntroMessage(), typeMode=TypeGameMode.MULTIPLAYERJOIN)
 
-    def CheckAvailableMode(self, request, context):
-        if self.factory.isBuilderRegistered(request.gameType):
-            if self.game is not None and not self.game.gameFinished:
-                if self.factory.create(request.gameType).getTypeGame() == TypeGameMode.MULTIPLAYERCREATE \
-                        and self.game.getTypeGame() == TypeGameMode.MULTIPLAYERCREATE:
-                    return wordgame_pb2.ModeReply(message=self.game.getIntroMessage(),
-                                                  typeMode=TypeGameMode.MULTIPLAYERJOIN)
-                return wordgame_pb2.ModeReply(message='A game is already in progress, wait a moment and then try again'
-                                                      ' choosing one of the modes available.\nGame modes available: '
-                                                      + self.factory.enumerateBuilders() + '\nGame mode: ',
-                                              typeMode=TypeGameMode.INVALID)
-            self.game = self.factory.create(request.gameType)
-            return wordgame_pb2.ModeReply(message=self.game.getIntroMessage(), typeMode=self.game.getTypeGame())
-        return wordgame_pb2.ModeReply(message='Choose one of the modes available!\nGame modes available: '
-                                              + self.factory.enumerateBuilders() + '\nGame mode: ',
-                                      typeMode=TypeGameMode.INVALID)
+    def AddPlayerName(self, request, context):
+        return wordgame_pb2.NameReply(playerNumber=self.game.addPlayerName(request.name))
 
     def GuessLetter(self, request, context):
         self.game.processGuess(request.letter)

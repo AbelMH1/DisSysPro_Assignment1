@@ -50,6 +50,11 @@ class WordGameStub(object):
                 request_serializer=wordgame__pb2.GameCodeRequest.SerializeToString,
                 response_deserializer=wordgame__pb2.GameCodeReply.FromString,
                 )
+        self.AddPlayerName = channel.unary_unary(
+                '/protos.WordGame/AddPlayerName',
+                request_serializer=wordgame__pb2.NameRequest.SerializeToString,
+                response_deserializer=wordgame__pb2.NameReply.FromString,
+                )
 
 
 class WordGameServicer(object):
@@ -98,6 +103,12 @@ class WordGameServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def AddPlayerName(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WordGameServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -135,6 +146,11 @@ def add_WordGameServicer_to_server(servicer, server):
                     servicer.GetMyGameCode,
                     request_deserializer=wordgame__pb2.GameCodeRequest.FromString,
                     response_serializer=wordgame__pb2.GameCodeReply.SerializeToString,
+            ),
+            'AddPlayerName': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddPlayerName,
+                    request_deserializer=wordgame__pb2.NameRequest.FromString,
+                    response_serializer=wordgame__pb2.NameReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -263,5 +279,22 @@ class WordGame(object):
         return grpc.experimental.unary_unary(request, target, '/protos.WordGame/GetMyGameCode',
             wordgame__pb2.GameCodeRequest.SerializeToString,
             wordgame__pb2.GameCodeReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def AddPlayerName(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/protos.WordGame/AddPlayerName',
+            wordgame__pb2.NameRequest.SerializeToString,
+            wordgame__pb2.NameReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0ewordgame.proto\x12\x06protos\"\x10\n\x0eWelcomeRequest\"\x1f\n\x0cWelcomeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1f\n\x0bModeRequest\x12\x10\n\x08gameType\x18\x01 \x01(\t\".\n\tModeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08typeMode\x18\x02 \x01(\x05\"\x1f\n\rLetterRequest\x12\x0e\n\x06letter\x18\x01 \x01(\t\"5\n\x0bLetterReply\x12\x10\n\x08sentence\x18\x01 \x01(\t\x12\x14\n\x0cgameFinished\x18\x02 \x01(\x08\"\x1b\n\x0bTurnRequest\x12\x0c\n\x04user\x18\x01 \x01(\x05\"\x1d\n\tTurnReply\x12\x10\n\x08isMyTurn\x18\x01 \x01(\x08\"\x17\n\x15TeamMateAnswerRequest\"T\n\x13TeamMateAnswerReply\x12\x10\n\x08sentence\x18\x01 \x01(\t\x12\x14\n\x0cgameFinished\x18\x02 \x01(\x08\x12\x15\n\rfinalSentence\x18\x03 \x01(\t\" \n\x0e\x43heckIDRequest\x12\x0e\n\x06gameID\x18\x01 \x01(\t\"!\n\x0c\x43heckIDReply\x12\x11\n\tcorrectID\x18\x01 \x01(\x08\"\x11\n\x0fGameCodeRequest\"!\n\rGameCodeReply\x12\x10\n\x08GameCode\x18\x01 \x01(\t2\xd0\x03\n\x08WordGame\x12\x41\n\x0f\x46irstConnection\x12\x16.protos.WelcomeRequest\x1a\x14.protos.WelcomeReply\"\x00\x12\x36\n\nSelectMode\x12\x13.protos.ModeRequest\x1a\x11.protos.ModeReply\"\x00\x12;\n\x0bGuessLetter\x12\x15.protos.LetterRequest\x1a\x13.protos.LetterReply\"\x00\x12\x35\n\tCheckTurn\x12\x13.protos.TurnRequest\x1a\x11.protos.TurnReply\"\x00\x12S\n\x13\x43heckTeamMateAnswer\x12\x1d.protos.TeamMateAnswerRequest\x1a\x1b.protos.TeamMateAnswerReply\"\x00\x12=\n\x0b\x43heckGameID\x12\x16.protos.CheckIDRequest\x1a\x14.protos.CheckIDReply\"\x00\x12\x41\n\rGetMyGameCode\x12\x17.protos.GameCodeRequest\x1a\x15.protos.GameCodeReply\"\x00\x42\x17\x42\rWordGameProtoP\x01\xa2\x02\x03HLWb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0ewordgame.proto\x12\x06protos\"\x10\n\x0eWelcomeRequest\"\x1f\n\x0cWelcomeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1f\n\x0bModeRequest\x12\x10\n\x08gameType\x18\x01 \x01(\t\".\n\tModeReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08typeMode\x18\x02 \x01(\x05\"\x1f\n\rLetterRequest\x12\x0e\n\x06letter\x18\x01 \x01(\t\"5\n\x0bLetterReply\x12\x10\n\x08sentence\x18\x01 \x01(\t\x12\x14\n\x0cgameFinished\x18\x02 \x01(\x08\"\x1b\n\x0bTurnRequest\x12\x0c\n\x04user\x18\x01 \x01(\x05\"\x1d\n\tTurnReply\x12\x10\n\x08isMyTurn\x18\x01 \x01(\x08\"\x17\n\x15TeamMateAnswerRequest\"T\n\x13TeamMateAnswerReply\x12\x10\n\x08sentence\x18\x01 \x01(\t\x12\x14\n\x0cgameFinished\x18\x02 \x01(\x08\x12\x15\n\rfinalSentence\x18\x03 \x01(\t\" \n\x0e\x43heckIDRequest\x12\x0e\n\x06gameID\x18\x01 \x01(\t\"!\n\x0c\x43heckIDReply\x12\x11\n\tcorrectID\x18\x01 \x01(\x08\"\x11\n\x0fGameCodeRequest\"!\n\rGameCodeReply\x12\x10\n\x08GameCode\x18\x01 \x01(\t\"\x1b\n\x0bNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"!\n\tNameReply\x12\x14\n\x0cplayerNumber\x18\x01 \x01(\x05\x32\x8b\x04\n\x08WordGame\x12\x41\n\x0f\x46irstConnection\x12\x16.protos.WelcomeRequest\x1a\x14.protos.WelcomeReply\"\x00\x12\x36\n\nSelectMode\x12\x13.protos.ModeRequest\x1a\x11.protos.ModeReply\"\x00\x12;\n\x0bGuessLetter\x12\x15.protos.LetterRequest\x1a\x13.protos.LetterReply\"\x00\x12\x35\n\tCheckTurn\x12\x13.protos.TurnRequest\x1a\x11.protos.TurnReply\"\x00\x12S\n\x13\x43heckTeamMateAnswer\x12\x1d.protos.TeamMateAnswerRequest\x1a\x1b.protos.TeamMateAnswerReply\"\x00\x12=\n\x0b\x43heckGameID\x12\x16.protos.CheckIDRequest\x1a\x14.protos.CheckIDReply\"\x00\x12\x41\n\rGetMyGameCode\x12\x17.protos.GameCodeRequest\x1a\x15.protos.GameCodeReply\"\x00\x12\x39\n\rAddPlayerName\x12\x13.protos.NameRequest\x1a\x11.protos.NameReply\"\x00\x42\x17\x42\rWordGameProtoP\x01\xa2\x02\x03HLWb\x06proto3')
 
 
 
@@ -32,6 +32,8 @@ _CHECKIDREQUEST = DESCRIPTOR.message_types_by_name['CheckIDRequest']
 _CHECKIDREPLY = DESCRIPTOR.message_types_by_name['CheckIDReply']
 _GAMECODEREQUEST = DESCRIPTOR.message_types_by_name['GameCodeRequest']
 _GAMECODEREPLY = DESCRIPTOR.message_types_by_name['GameCodeReply']
+_NAMEREQUEST = DESCRIPTOR.message_types_by_name['NameRequest']
+_NAMEREPLY = DESCRIPTOR.message_types_by_name['NameReply']
 WelcomeRequest = _reflection.GeneratedProtocolMessageType('WelcomeRequest', (_message.Message,), {
   'DESCRIPTOR' : _WELCOMEREQUEST,
   '__module__' : 'wordgame_pb2'
@@ -130,6 +132,20 @@ GameCodeReply = _reflection.GeneratedProtocolMessageType('GameCodeReply', (_mess
   })
 _sym_db.RegisterMessage(GameCodeReply)
 
+NameRequest = _reflection.GeneratedProtocolMessageType('NameRequest', (_message.Message,), {
+  'DESCRIPTOR' : _NAMEREQUEST,
+  '__module__' : 'wordgame_pb2'
+  # @@protoc_insertion_point(class_scope:protos.NameRequest)
+  })
+_sym_db.RegisterMessage(NameRequest)
+
+NameReply = _reflection.GeneratedProtocolMessageType('NameReply', (_message.Message,), {
+  'DESCRIPTOR' : _NAMEREPLY,
+  '__module__' : 'wordgame_pb2'
+  # @@protoc_insertion_point(class_scope:protos.NameReply)
+  })
+_sym_db.RegisterMessage(NameReply)
+
 _WORDGAME = DESCRIPTOR.services_by_name['WordGame']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
@@ -163,6 +179,10 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _GAMECODEREQUEST._serialized_end=503
   _GAMECODEREPLY._serialized_start=505
   _GAMECODEREPLY._serialized_end=538
-  _WORDGAME._serialized_start=541
-  _WORDGAME._serialized_end=1005
+  _NAMEREQUEST._serialized_start=540
+  _NAMEREQUEST._serialized_end=567
+  _NAMEREPLY._serialized_start=569
+  _NAMEREPLY._serialized_end=602
+  _WORDGAME._serialized_start=605
+  _WORDGAME._serialized_end=1128
 # @@protoc_insertion_point(module_scope)

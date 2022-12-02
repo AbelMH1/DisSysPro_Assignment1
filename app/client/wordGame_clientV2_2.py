@@ -7,8 +7,6 @@ import wordgame_pb2
 import wordgame_pb2_grpc
 from datatype.enums import TypeGameMode
 
-userid = 1
-
 
 def run():
     with grpc.insecure_channel('localhost:50051') as channel:
@@ -18,15 +16,15 @@ def run():
         print(response.message)
 
         response = stub.SelectMode(wordgame_pb2.ModeRequest(gameType=input().upper()))
-        print(response.message)
         while response.typeMode == TypeGameMode.INVALID:
-            response = stub.SelectMode(wordgame_pb2.ModeRequest(gameType=input().upper()))
             print(response.message)
-
+            response = stub.SelectMode(wordgame_pb2.ModeRequest(gameType=input().upper()))
+        userid = stub.AddPlayerName(wordgame_pb2.NameRequest(name=input("What is your name?  "))).playerNumber
+        print(response.message)
         if response.typeMode == TypeGameMode.SINGLEPLAYER:
             runSinglePlayer(stub)
         else:
-            runMultiPlayer(stub, response.typeMode)
+            runMultiPlayer(stub, response.typeMode, userid)
 
 
 def runSinglePlayer(stub):
@@ -37,7 +35,7 @@ def runSinglePlayer(stub):
         gameFinished = response.gameFinished
 
 
-def runMultiPlayer(stub, typeMode):
+def runMultiPlayer(stub, typeMode, userid):
     if typeMode == TypeGameMode.MULTIPLAYERJOIN:
         if not askForGameID(stub):
             return

@@ -1,3 +1,7 @@
+import json
+
+import pika
+
 from app.templates.WordGameTemplate import WordGameTemplate
 from datatype.enums import TypeGameMode
 from patterns import Singleton
@@ -6,12 +10,7 @@ from patterns import Singleton
 class WheelOfFortuneBasic(WordGameTemplate):
 
     def __init__(self):
-        self.sentence = Singleton.SentencesIO.get_instance().getSentence()
-        print(self.sentence)
-        self.usedLetters = []
-        self.guessedSentence = []
-        self.points = 0
-        self.gameFinished = False
+        super().__init__()
         for x in range(len(self.sentence)):
             if self.sentence[x] == " ":
                 self.guessedSentence.append(True)
@@ -23,6 +22,8 @@ class WheelOfFortuneBasic(WordGameTemplate):
             self.__processLetter(guess)
         else:
             self.__processSentence(guess)
+        self.__checkFinishCondition()
+        self.record_statistics()
 
     def __processLetter(self, letter):
         if letter not in self.usedLetters:
@@ -33,15 +34,8 @@ class WheelOfFortuneBasic(WordGameTemplate):
                     if self.sentence[i] == letter:
                         self.guessedSentence[i] = True
                         self.points += 10
-                self.__checkFinishCondition()
             else:
                 self.points -= 10
-
-    def __checkFinishCondition(self):
-        for x in self.guessedSentence:
-            if not x:
-                return
-        self.gameFinished = True
 
     def __processSentence(self, s):
         if len(self.sentence) != len(s):
@@ -52,6 +46,13 @@ class WheelOfFortuneBasic(WordGameTemplate):
                 self.points -= 50
                 return
         self.points += 25 * self.guessedSentence.count(False)
+        for i in range(len(self.sentence)):
+            self.guessedSentence[i] = True
+
+    def __checkFinishCondition(self):
+        for x in self.guessedSentence:
+            if not x:
+                return
         self.gameFinished = True
 
     def getMessage(self):
@@ -79,6 +80,23 @@ class WheelOfFortuneBasic(WordGameTemplate):
 
     def getTypeGame(self):
         return TypeGameMode.SINGLEPLAYER
+
+    def record_statistics(self):
+        game_type = "Basic"
+        lettersGuessed = []
+        for i in range(len(self.sentence)):
+            if self.guessedSentence[i] and self.sentence[i] != ' ' and self.sentence[i] not in lettersGuessed:
+                lettersGuessed.append(self.sentence[i])
+        totalPoints = self.points
+        playerName = self.players[0]
+        message = [self.gameID, game_type, playerName, totalPoints, lettersGuessed]
+        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        channel = connection.channel()
+        channel.queue_declare(queue='player-stats')
+        channel.basic_publish(exchange='',
+                              routing_key='player-stats',
+                              body=json.dumps(message))
+        connection.close()
 
 
 class WheelOfFortuneBasicBuilder:

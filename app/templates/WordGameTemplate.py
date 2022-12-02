@@ -1,10 +1,25 @@
 from abc import ABC, abstractmethod
+import random
+
+from patterns import Singleton
+
+
+def generateGameCode():
+    code = ""
+    for i in range(5):
+        code += str(random.randint(0, 9))
+    return code
 
 
 class WordGameTemplate(ABC):
 
     def __init__(self):
-        self.sentence = None
+        self.sentence = Singleton.SentencesIO.get_instance().getSentence()
+        self.usedLetters = []
+        self.guessedSentence = []
+        self.points = 0
+        self.players = []
+        self.gameID = generateGameCode()
         self.gameFinished = False
 
     @abstractmethod
@@ -34,3 +49,7 @@ class WordGameTemplate(ABC):
 
     def changeTurn(self):
         pass
+
+    def addPlayerName(self, name):
+        self.players.append(name)
+        return len(self.players)-1

@@ -1,17 +1,18 @@
+import json
+
+import pika as pika
+
 from app.templates.WordGameTemplate import WordGameTemplate
 from datatype.enums import TypeGameMode
-from patterns import Singleton
 
 
 class WheelOfFortuneCooperative(WordGameTemplate):
 
     def __init__(self):
-        self.sentence = Singleton.SentencesIO.get_instance().getSentence()
-        self.usedLetters = []
+        super().__init__()
         self.pointsPlayers = [0, 0]
-        self.gameFinished = False
         self.turn = 0
-        self.gameID = "1"
+
         self.guessedSentence = [[], []]
         for x in range(len(self.sentence)):
             if self.sentence[x] == " ":
@@ -29,6 +30,8 @@ class WheelOfFortuneCooperative(WordGameTemplate):
             self.__processLetter(guess)
         else:
             self.__processSentence(guess)
+        self.__checkFinishCondition()
+        self.record_statistics(self.turn)
 
     def __processLetter(self, letter):
         if letter not in self.usedLetters:
@@ -39,15 +42,8 @@ class WheelOfFortuneCooperative(WordGameTemplate):
                     if self.sentence[i] == letter:
                         self.guessedSentence[self.turn][i] = True
                         self.pointsPlayers[self.turn] += 10
-                self.__checkFinishCondition()
             else:
                 self.pointsPlayers[self.turn] -= 10
-
-    def __checkFinishCondition(self):
-        for i in range(len(self.sentence)):
-            if not self.guessedSentence[0][i] and not self.guessedSentence[1][i]:
-                return
-        self.gameFinished = True
 
     def __processSentence(self, s):
         if len(self.sentence) != len(s):
@@ -57,7 +53,18 @@ class WheelOfFortuneCooperative(WordGameTemplate):
             if self.sentence[i] != s[i]:
                 self.pointsPlayers[self.turn] -= 50
                 return
-        self.pointsPlayers[self.turn] += 25 * self.guessedSentence.count(False)
+        unguesedLetters = 0
+        otherPlayer = (self.turn + 1) % 2
+        for i in range(len(self.sentence)):
+            if not self.guessedSentence[otherPlayer][i] and not self.guessedSentence[self.turn][i]:
+                self.guessedSentence[self.turn][i] = True
+                unguesedLetters += 1
+        self.pointsPlayers[self.turn] += 25 * unguesedLetters
+
+    def __checkFinishCondition(self):
+        for i in range(len(self.sentence)):
+            if not self.guessedSentence[0][i] and not self.guessedSentence[1][i]:
+                return
         self.gameFinished = True
 
     def getMessage(self):
@@ -91,6 +98,23 @@ class WheelOfFortuneCooperative(WordGameTemplate):
 
     def checkGameID(self, gameID):
         return self.gameID == gameID
+
+    def record_statistics(self, player_index):
+        game_type = "Cooperative"
+        lettersGuessed = []
+        for i in range(len(self.sentence)):
+            if self.guessedSentence[self.turn][i] and self.sentence[i] != ' ' and self.sentence[i] not in lettersGuessed:
+                lettersGuessed.append(self.sentence[i])
+        totalPoints = self.pointsPlayers[player_index]
+        playerName = str(player_index) + "-" + self.players[player_index]
+        message = [self.gameID, game_type, playerName, totalPoints, lettersGuessed]
+        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        channel = connection.channel()
+        channel.queue_declare(queue='player-stats')
+        channel.basic_publish(exchange='',
+                              routing_key='player-stats',
+                              body=json.dumps(message))
+        connection.close()
 
 
 class WheelOfFortuneCooperativeBuilder:
