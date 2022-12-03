@@ -19,7 +19,7 @@ class PlayerStatsDao:
             raise Exception("This is a singleton!")
         else:
             PlayerStatsDao.__instance = self
-        self.db = TinyDB('player_stats.json')
+        self.db = TinyDB('../../data/player_stats.json')
         self.lock = threading.Lock()
 
     def add(self, stat):
@@ -33,5 +33,6 @@ class PlayerStatsDao:
         else:
             self.db.update({'Game': stat[0], 'GameMode': stat[1], 'Player': stat[2], 'TotalScore': stat[3],
                             'LettersGuessed': stat[4]}, player_stats.Game == stat[0] and player_stats.Player == stat[2])
-        print(self.db.get(player_stats.Game == stat[0] and player_stats.Player == stat[2]))
+        ret = str(self.db.get(player_stats.Game == stat[0] and player_stats.Player == stat[2]))
         self.lock.release()
+        return ret

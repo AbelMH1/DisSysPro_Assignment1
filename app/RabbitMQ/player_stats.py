@@ -4,7 +4,12 @@ import sys
 
 import pika
 
-from app.RabbitMQ import player_stats_dao_thread_safe_singleton
+from patterns import player_stats_dao_thread_safe_singleton
+
+''' THIS CLASS IS DEPRECATED
+It was used for consuming the messages from the queue generated on the wordGame_server
+and saving them into a TinyDB called "player_stats.json" but know i consume the messages
+using sockets when a client ask to consume them'''
 
 
 def callback(ch, method, properties, body):

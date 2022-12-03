@@ -6,6 +6,10 @@ import wordgame_pb2
 import wordgame_pb2_grpc
 from datatype.enums import TypeGameMode
 
+''' THIS CLASS IS OBSOLETE
+wordGame_clientV2(_1 and _2) provide the same functionality that this class provided and
+add new extra features. Try using them instead! '''
+
 
 def run():
     with grpc.insecure_channel('localhost:50051') as channel:
