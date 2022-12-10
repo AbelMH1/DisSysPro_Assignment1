@@ -23,9 +23,9 @@ def callback(ch, method, properties, body):
 
 def myCallback(ch, method, properties, body, conn):
     dao = player_stats_dao_thread_safe_singleton.PlayerStatsDao.get_instance()
-    ret = dao.add(json.loads(body))
+    ret = dao.add(json.loads(body))  # It adds the latest stats to the database
     print(" [x] Received " + ret)
-    conn.sendall(ret.encode())
+    conn.sendall(ret.encode())  # It sends the latest stats to the observerClient
 
 
 def main():
