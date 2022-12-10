@@ -8,7 +8,7 @@ from patterns import player_stats_dao_thread_safe_singleton
 
 import socket
 
-HOST = 'localhost'
+HOST = '0.0.0.0'
 PORT = 64000
 
 '''
